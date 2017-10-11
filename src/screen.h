@@ -1,7 +1,9 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#ifndef MAXBUF
 #define MAXBUF 1024
+#endif
 
 typedef struct screen
 {
@@ -10,9 +12,10 @@ typedef struct screen
     char x[MAXBUF];
     char y[MAXBUF];   
     char port[MAXBUF];
-    int id;
+    char id[MAXBUF];
 } screen;
 
 screen screen_init();
+void screen_dump();
 
 #endif

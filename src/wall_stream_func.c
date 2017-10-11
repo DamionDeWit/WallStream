@@ -4,8 +4,9 @@
 #include "wall_stream.h"
 
 void create_config_default(){
-    //  Create a default config file
-    //  for a set-up for a 3x2 wall
+//  Create a default config file
+//  for a set-up for a 3x2 wall
+
     #define NUMBER_OF_SCREENS 6
     FILE *pFile;
     int i;
@@ -49,23 +50,26 @@ void create_config_default(){
     #undef NUMBER_OF_SCREENS
 }
 
+
 void open_config(){
     FILE *pFile;
     //  First try to open Config.conf
     pFile = fopen("Config.conf", "r");
     
     if(pFile == NULL){  //  Couldn't find Config.conf
-        //  Try Config.txt
-        pFile = fopen("Config.txt", "r");
-        
-        if(pFile == NULL){  // Still couldn't find a Config file
-        //  create config file
-        create_config_default();
-        }
-    }
+    //  Try Config.txt
+    pFile = fopen("Config.txt", "r");
+    
+    if(pFile == NULL){  // Still couldn't find a Config file
+    //  create config file
+    create_config_default();
+}
+}
 }
 
 void run_ffmpeg(){
+//  Starts ffmpeg from the Command Line
+//  Builds a command based on a config file
     char command[65535];
     char input_file[255] = "sample.divx";
     int screen_count = 1;

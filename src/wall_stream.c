@@ -4,24 +4,22 @@
 #include "screen.h"
 
 int main(){
+    //  Variables to store data for screen
+    FILE *pFile;
+    int ids;
+    char w[MAXBUF], h[MAXBUF], x[MAXBUF], y[MAXBUF], p[MAXBUF], id[MAXBUF];
+    
+    create_config_default();
+    //  Open Config.conf
+    pFile = fopen("Config.conf", "r");
+
+    //  Count the Id's in .conf
 
     //  Create screen
-    screen my_screen = screen_init();
-    
-    // Setup Screen
-    // strcpy(my_screen.width, "600px");
-    // strcpy(my_screen.height, "400px");
-    // strcpy(my_screen.x, "10px");
-    // strcpy(my_screen.y, "5px");
-    // strcpy(my_screen.port, "1234");
-    // my_screen.id = 0;
+    screen my_screen = screen_init(w, h, x, y, p, id);
 
     //  Dump Screen info
-    printf("my_screen.width: %s\n", my_screen.width);
-    printf("my_screen.heigth: %s\n", my_screen.height);
-    printf("my_screen.x: %s\n", my_screen.x);
-    printf("my_screen.y: %s\n", my_screen.y);
-    printf("my_screen.port: %s\n", my_screen.port);
-    printf("my_screen.id: %d\n", my_screen.id);
+    screen_dump(my_screen);
+    
     return 0;
 }
