@@ -4,9 +4,9 @@ OBJDIR=obj
 SRCDIR=src
 OUTDIR=bin
 
-DEPS = $(addprefix $(SRCDIR)/, wall_stream.h)
+DEPS = $(addprefix $(SRCDIR)/, wall_stream.h screen.h)
+OBJ = $(addprefix $(OBJDIR)/, wall_stream.o wall_stream_func.o screen.o)
 # SRC = $(addprefix $(SRCDIR)/, )
-OBJ = $(addprefix $(OBJDIR)/, wall_stream.o wall_stream_func.o)
 
 	
 wall_stream: $(OBJ)
