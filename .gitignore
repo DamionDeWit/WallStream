@@ -1,0 +1,4 @@
+obj/wall_stream.o
+obj/wall_stream_func.o
+obj/screen.o
+bin/wall_stream
