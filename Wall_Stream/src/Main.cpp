@@ -59,7 +59,7 @@ public:
 
 int main()
 {
-	Screen screen{800, 600};
+	Screen screen{};
 	screen.Print();
 
 	std::cin.get();
