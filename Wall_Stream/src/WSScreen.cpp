@@ -2,18 +2,12 @@
 #include "WSScreen.h"
 
 Rect::Rect()
-{
-	Width = 0;
-	Height = 0;
-	Area = 0;
-}
+	: Width{ 0 }, Height{ 0 }, Area{ 0 }
+{}
 
 Rect::Rect(int width, int height)
-{
-	Width = width;
-	Height = height;
-	Area = Width * Height;
-}
+	: Width{ width }, Height{ height }, Area{ Width * Height }
+{}
 
 void Rect::Print()
 {

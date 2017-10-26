@@ -5,7 +5,7 @@
 
 int main()
 {
-	Rect r;
+	Rect r(34, 65);
 	r.Print();
 
 	std::cin.get();
