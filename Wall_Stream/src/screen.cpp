@@ -1,5 +1,5 @@
 #include <iostream>
-#include "WSScreen.h"
+#include "screen.h"
 
 Screen::Screen()
 	: Width{ 0 }, Height{ 0 }, Area{ 0 }

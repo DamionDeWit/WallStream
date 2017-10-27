@@ -126,11 +126,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\WSScreen.cpp" />
+    <ClCompile Include="src\screen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\WSScreen.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

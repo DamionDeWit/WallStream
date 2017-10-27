@@ -1,12 +1,11 @@
 #include <iostream>
-#include "WSScreen.h"
+#include "config.h"
+#include "screen.h"
 
-#define LOG() screen.Print();
+#define LOG(x) x.Print();
 
 int main()
 {
-	Screen screen(25, 4);
-	LOG()
-
+	Config config;
 	std::cin.get();
 }
