@@ -1,12 +1,12 @@
 #include <iostream>
 #include "WSScreen.h"
 
-#define LOG(x) std::cout << x < std::endl
+#define LOG() screen.Print();
 
 int main()
 {
-	Rect r(34, 65);
-	r.Print();
+	Screen screen(25, 4);
+	LOG()
 
 	std::cin.get();
 }

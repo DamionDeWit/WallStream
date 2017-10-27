@@ -1,15 +1,15 @@
 #include <iostream>
 #include "WSScreen.h"
 
-Rect::Rect()
+Screen::Screen()
 	: Width{ 0 }, Height{ 0 }, Area{ 0 }
 {}
 
-Rect::Rect(int width, int height)
+Screen::Screen(int width, int height)
 	: Width{ width }, Height{ height }, Area{ Width * Height }
 {}
 
-void Rect::Print()
+void Screen::Print() const
 {
 	std::cout << "Width: " << Width << std::endl;
 	std::cout << "Height: " << Height << std::endl;
