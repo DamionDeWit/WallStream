@@ -1,0 +1,7 @@
+﻿  config.cpp
+  Main.cpp
+  screen.cpp
+  Generating code
+  All 125 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Wall_Stream.vcxproj -> c:\dev\Wall_Stream\bin\x64\Release\Wall_Stream.exe
