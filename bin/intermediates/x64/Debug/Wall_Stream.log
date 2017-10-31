@@ -1,5 +1,11 @@
-﻿  screen.cpp
-  Main.cpp
-  config.cpp
-  Generating Code...
-  Wall_Stream.vcxproj -> c:\dev\Wall_Stream\bin\x64\Debug\Wall_Stream.exe
+﻿  Main.cpp
+c:\users\pi\source\repos\wall_stream\include\pymath.h(22): warning C4273: 'round': inconsistent dll linkage
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\corecrt_math.h(532): note: see previous definition of 'round'
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xtgmath.h(184): warning C4273: 'round': inconsistent dll linkage
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\corecrt_math.h(532): note: see previous definition of 'round'
+Main.obj : error LNK2019: unresolved external symbol __imp_Py_Initialize referenced in function "void __cdecl run_python(void)" (?run_python@@YAXXZ)
+Main.obj : error LNK2019: unresolved external symbol __imp_Py_Finalize referenced in function "void __cdecl run_python(void)" (?run_python@@YAXXZ)
+Main.obj : error LNK2019: unresolved external symbol __imp_PyRun_SimpleStringFlags referenced in function "void __cdecl run_python(void)" (?run_python@@YAXXZ)
+C:\Users\Pi\Source\Repos\Wall_Stream\libs\python27.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\Users\Pi\Source\Repos\Wall_Stream\libs\python27_d.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\Users\Pi\Source\Repos\Wall_Stream\bin\x64\Debug\Wall_Stream.exe : fatal error LNK1120: 3 unresolved externals
