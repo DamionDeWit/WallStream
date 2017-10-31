@@ -1,7 +1,7 @@
-﻿  config.cpp
-  Main.cpp
-  screen.cpp
+﻿  Main.cpp
   Generating code
-  All 125 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  8 of 125 functions ( 6.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Wall_Stream.vcxproj -> c:\dev\Wall_Stream\bin\x64\Release\Wall_Stream.exe
