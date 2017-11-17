@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "config.h"
 #include "screen.h"
+#include "wall.h"
 
-#define LOG(x) x.Print();
+#define LOG(x) std::cout << x << std::endl
 
 void run_ffmpeg_screenCap()
 {
@@ -17,16 +19,30 @@ void run_ffmpeg_screenCap()
 	system(buffer.c_str());
 }
 
+void run_ffmpeg_cuvid()
+{
+	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\720_sample.divx -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output2.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output3.mp4";
+
+	system(buffer.c_str());
+}
+
+void run_ffmpeg_convert()
+{
+	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 -c:v h264_nvenc -filter:v \"crop=3000:1596:0:0\"  -preset llhq C:\\Users\\Pi\\Downloads\\3k_sample.mp4";
+
+	system(buffer.c_str());
+}
+
 void run_ffmpeg_wall()
 {
-	const std::string &input = "-i C:\\Users\\Pi\\Videos\\samples\\4k_sample.mp4 ";
-	const std::string &preset = "-preset hq ";
+	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\3k_sample.mp4 ";
+	const std::string &preset = "-preset ultrafast ";
 	const std::string &profile = "-profile:v high444p ";
-	const std::string &codec = "-c:v h264_nvenc ";
+	const std::string &codec = "-c:v h264 ";
 	const std::string &hwaccel = "-hwaccel cuvid -c:v h264_cuvid ";
 	const std::string &bufsize = "-bufsize 2000k ";
 	const std::string filter[] = { 
-									" -filter:v \"crop=iw/3:ih/2:iw/3*0:ih/2*0\" ", 
+									(" -filter:v \"crop=iw/3:ih/2:iw/3*0:ih/2*0\" "), 
 									" -filter:v \"crop=iw/3:ih/2:iw/3*1:ih/2*0\" ",
 									" -filter:v \"crop=iw/3:ih/2:iw/3*2:ih/2*0\" ",
 									" -filter:v \"crop=iw/3:ih/2:iw/3*0:ih/2*1\" ",
@@ -44,16 +60,47 @@ void run_ffmpeg_wall()
 
 	const std::string &buffer = "ffmpeg -re  "   + input
 		+ filter[0] + preset + codec + bufsize
-		+" -f mpegts udp://" + iplist[0] + ":1234"
+		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ filter[1] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[1] + ":1234";
+		+ " -f mpegts udp://" + iplist[1] + ":1234"
+		+ filter[2] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[2] + ":1234"
+		+ filter[3] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[3] + ":1234"
+		+ filter[4] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[4] + ":1234"
+		+ filter[5] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[5] + ":1234";
 
 	system(buffer.c_str());
 }
 
-int main()
+void mainw()
 {
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_wall();
-	//system("PAUSE");
+
+	system("PAUSE");
+}
+
+void main()
+{
+	std::vector<Screen> vs;
+
+	Screen screen1(800, 600, 80);
+	Screen screen2(1200, 1000, 60, 70);
+
+
+	vs.push_back(screen1);
+	vs.push_back(screen2);
+
+	vs[0].Print();
+	vs[1].Print();
+
+
+	
+
+
+	system("PAUSE");
+
 }
