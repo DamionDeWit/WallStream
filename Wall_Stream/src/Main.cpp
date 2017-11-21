@@ -108,11 +108,16 @@ void main()
 	wall.add_to_layout(wall.Screens[1], 0);
 	wall.add_to_layout(wall.Screens[2], 0);
 	wall.add_row();
-	wall.add_to_layout(wall.Screens[0], 1);
-	wall.add_to_layout(wall.Screens[1], 1);
-	wall.add_to_layout(wall.Screens[2], 1);
+	wall.add_to_layout(wall.Screens[3], 1);
+	wall.add_to_layout(wall.Screens[4], 1);
+	wall.add_to_layout(wall.Screens[5], 1);
 
 	wall.print_wall();
+
+	wall.get_dimensions();
+	LOG(wall.m_width);
+	LOG(wall.m_height);
+
 
 	system("PAUSE");
 

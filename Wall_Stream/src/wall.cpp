@@ -26,6 +26,23 @@ void Wall::add_to_layout(Screen &screen, int row)
 	Layout[row].push_back(screen);
 }
 
+void Wall::get_dimensions()
+{
+	//  width
+	for (int i = 0; i < Layout[0].size(); i++)
+	{
+		m_width += Layout[0][i].Width + Layout[0][i].Bezel[1] + Layout[0][i].Bezel[3];
+	}
+	m_width -= Layout[0][0].Bezel[1] + Layout[0][Layout[0].size()-1].Bezel[3];
+
+	//  height
+	for (int i = 0; i < Layout.size(); i++)
+	{
+		m_height += Layout[i][0].Height + Layout[i][0].Bezel[0] + Layout[i][0].Bezel[2];
+	}
+	m_height -= Layout[0][0].Bezel[0] + Layout[Layout.size()-1][0].Bezel[2];
+}
+
 void Wall::print_wall()
 {
 	std::string line_top_bottom = "+=====+";

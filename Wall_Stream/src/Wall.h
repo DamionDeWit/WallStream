@@ -7,6 +7,10 @@
 
 class Wall
 {
+public:		// public for testing purposes, private for non-testing
+	int m_width;
+	int m_height;
+
 public:
 	std::vector<Screen> Screens;
 	std::vector< std::vector < Screen > > Layout;
@@ -16,6 +20,8 @@ public:
 
 	void add_row();
 	void add_to_layout(Screen &screen, int row);	//  Adds screen to layout
+
+	void get_dimensions();
 
 	void print_wall();
 
