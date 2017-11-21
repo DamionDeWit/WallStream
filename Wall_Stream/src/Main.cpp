@@ -112,7 +112,7 @@ void main()
 	wall.add_to_layout(wall.Screens[1], 1);
 	wall.add_to_layout(wall.Screens[2], 1);
 
-
+	wall.print_wall();
 
 	system("PAUSE");
 

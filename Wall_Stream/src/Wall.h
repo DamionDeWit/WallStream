@@ -15,7 +15,9 @@ public:
 	void del_screens();
 
 	void add_row();
-	void add_to_layout(Screen &screen, int row);	//  Adds screen to layout  - ERROR
+	void add_to_layout(Screen &screen, int row);	//  Adds screen to layout
+
+	void print_wall();
 
 };
 
