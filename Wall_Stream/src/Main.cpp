@@ -2,10 +2,13 @@
 #include <string>
 #include <vector>
 #include "config.h"
-#include "screen.h"
 #include "wall.h"
+#include "screen.h"
 
 #define LOG(x) std::cout << x << std::endl
+
+
+
 
 void run_ffmpeg_screenCap()
 {
@@ -35,7 +38,7 @@ void run_ffmpeg_convert()
 
 void run_ffmpeg_wall()
 {
-	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\3k_sample.mp4 ";
+	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 ";
 	const std::string &preset = "-preset ultrafast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = "-c:v h264 ";
@@ -83,24 +86,34 @@ void mainw()
 	system("PAUSE");
 }
 
+
+void test(Wall &wall)
+{
+	for (int i = 0; i < 6; i++)
+		wall.add_screen(Screen(i, 1280, 1024, 40));
+
+
+	//for (int i = 0; i < wall.Screens.size(); i++)
+	//	wall.Screens[i].Print();
+}
+
 void main()
 {
-	std::vector<Screen> vs;
-
-	Screen screen1(800, 600, 80);
-	Screen screen2(1200, 1000, 60, 70);
-
-
-	vs.push_back(screen1);
-	vs.push_back(screen2);
-
-	vs[0].Print();
-	vs[1].Print();
-
-
+	Wall wall;
 	
+	test(wall);
+
+	wall.add_row();
+	wall.add_to_layout(wall.Screens[0], 0);
+	wall.add_to_layout(wall.Screens[1], 0);
+	wall.add_to_layout(wall.Screens[2], 0);
+	wall.add_row();
+	wall.add_to_layout(wall.Screens[0], 1);
+	wall.add_to_layout(wall.Screens[1], 1);
+	wall.add_to_layout(wall.Screens[2], 1);
+
 
 
 	system("PAUSE");
 
-}
+ }
