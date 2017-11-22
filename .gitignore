@@ -1,4 +1,10 @@
 .vs/
 bin/
+
+*.log
+*.tlog
+*.obj
+*.exe
+
 *.divx
 *.mp4
