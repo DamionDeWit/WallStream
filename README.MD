@@ -1,5 +1,20 @@
 # Project Video Wall
 ---
+
+# Free Form
+Het plan is momenteel om over te stappen van een "Grid" systeem, naar een "Free Form" systeem.
+Free Form houdt geen rekening met bezels, maar specificeerd voor elk scherm de verschillende waardes:
+
+- width
+- height
+- x pos
+- y pos
+
+De x en y positions zijn hier de origin van het scherm (linker boven hoek)
+
+Het Grid systeem wordt niet geheel geschrapt, maar het idee nu is om een Grid setup te gebruiken om een Free Form config te genereren.
+Het ontwerpen van een Free Form vanaf scratch zal veel rekenwerk zijn, een Grid Layout als start punt kan veel rekenwerk besparen.
+
 ## Hoe werkt het?
 Voor het mogelijk maken van de video wall maken we gebruik van de *ffmpeg* Console applicatie. 
 
