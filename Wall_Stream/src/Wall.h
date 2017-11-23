@@ -5,6 +5,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///// Wall using grid system
+/*
 class Wall
 {
 public:		// public for testing purposes, private for non-testing
@@ -26,5 +48,6 @@ public:
 	void print_wall();
 
 };
+*/
 
 #endif // ! WALL_H

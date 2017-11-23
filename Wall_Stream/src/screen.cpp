@@ -1,9 +1,64 @@
+#include "screen.h"
+
+Screen::Screen(int id)
+	: m_Id{ id }, m_Width{ 0 },m_Height{ 0 }, m_X{ 0 },m_Y{ 0 }
+{
+
+}
+
+Screen::Screen(int id, int x)
+	: m_Id{ id }, m_Width{ x }, m_Height{ x }, m_X{ 0 }, m_Y{ 0 }
+{
+
+}
+
+Screen::Screen(int id, int width, int height)
+	: m_Id{ id }, m_Width{ width }, m_Height{ height }, m_X{ 0 }, m_Y{ 0 }
+{
+
+}
+
+Screen::Screen(int id, int width, int height, int x, int y)
+	: m_Id{ id }, m_Width{ width },m_Height{ height }, m_X{ x },m_Y{ y }
+{
+
+}
+
+
+
+void Screen::Print() const
+{
+	std::cout << "      #| " << m_Id << std::endl;
+	std::cout << "  Width| " << m_Width << std::endl;
+	std::cout << " Height| " << m_Height << std::endl;
+	std::cout << "      X| " << m_X<< std::endl;
+	std::cout << "      Y| " << m_Y<< std::endl;
+	std::cout << "-------+--------" << std::endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///// Screen using grid system
+/*
 #include <iostream>
 #include "screen.h"
 
-/*Screen::Screen()
+Screen::Screen()
 	: Width{ 0 }, Height{ 0 }, Bezel{ 0,0,0,0 }
-{}*/
+{}
 
 Screen::Screen(int id)
 	: Id{ id }, Width{ 0 }, Height{ 0 }, Bezel{ 0,0,0,0 }
@@ -41,4 +96,4 @@ void Screen::Print() const
 		<< Bezel[3] << std::endl << std::endl;
 
 }
-
+*/

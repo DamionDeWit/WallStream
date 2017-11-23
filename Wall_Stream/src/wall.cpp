@@ -1,3 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///// Wall using grid system
+/*
 #include <vector>
 #include <string>
 #include <iostream>
@@ -70,3 +107,4 @@ void Wall::print_wall()
 		std::cout << std::endl;
 	}
 }
+*/

@@ -87,7 +87,20 @@ void mainw()
 }
 
 
-void test(Wall &wall)
+int main()
+{
+	Screen s(0, 123, 456);
+	s.Print();
+
+	system("PAUSE");
+}
+
+
+
+
+
+////  Grid wall
+/*void test(Wall &wall)
 {
 	for (int i = 0; i < 6; i++)
 		wall.add_screen(Screen(i, 1280, 1024, 40));
@@ -121,4 +134,4 @@ void main()
 
 	system("PAUSE");
 
- }
+ }*/
