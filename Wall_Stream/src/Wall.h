@@ -1,27 +1,28 @@
 #ifndef  WALL_H
 #define WALL_H
 
+#include <algorithm>
 #include "screen.h"
+#include "config.h"
 
+class Wall
+{
+public:		// public for testing purposes, private for non-testing
+	int m_width;
+	int m_height;
 
+	Config m_Config;
 
+public:
+	std::vector< Screen > Layout;
 
+	Wall(Config &c);					//  Wall needs a config 
+	
+	std::vector< int > getDimensions();
 
+	void printWall();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
 
 
 

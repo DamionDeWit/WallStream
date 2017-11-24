@@ -89,8 +89,13 @@ void mainw()
 
 int main()
 {
-	Screen s(0, 123, 456);
-	s.Print();
+	Config c;
+	Wall wall(c);
+
+	wall.printWall();
+
+	LOG(wall.m_height);
+	LOG(wall.m_width);
 
 	system("PAUSE");
 }
