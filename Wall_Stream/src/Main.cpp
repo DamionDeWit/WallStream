@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+
 #include "config.h"
 #include "wall.h"
 #include "screen.h"
 
-#define LOG(x) std::cout << x << std::endl
 
+#define LOG(x) std::cout << x << std::endl
 
 
 
@@ -78,8 +80,63 @@ void run_ffmpeg_wall()
 	system(buffer.c_str());
 }
 
+void run_ffmpeg_freeform(Wall wall)
+{
+	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\720_sample.divx ";
+	const std::string &preset = "-preset ultrafast ";
+	const std::string &profile = "-profile:v high444p ";
+	const std::string &codec = "-c:v h264 ";
+	const std::string &hwaccel = "-hwaccel cuvid -c:v h264_cuvid ";
+	const std::string &bufsize = "-bufsize 2000k ";
+	std::vector<std::string> filters;
+	
+
+	for (int i = 0; i < wall.Layout.size(); i++)
+	{
+
+		std::string filter = " -filter:v \"crop=";
+		filter.append(std::to_string(wall.Layout[i].m_Width));
+		filter.append(":");
+		filter.append(std::to_string(wall.Layout[i].m_Height));
+		filter.append(":");
+		filter.append(std::to_string(wall.Layout[i].m_X));
+		filter.append(":");
+		filter.append(std::to_string(wall.Layout[i].m_Y));
+		filter.append("\" ");
+
+		filters.push_back(filter);
+		
+
+	}
+
+	const std::string iplist[] = { "192.168.60.241",
+		"192.168.60.242",
+		"192.168.60.243",
+		"192.168.60.244",
+		"192.168.60.245",
+		"192.168.60.246",
+	};
+
+	const std::string &buffer = "ffmpeg -re  " + input
+		+ filters[0] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[0] + ":1234"
+		+ filters[1] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[1] + ":1234"
+		+ filters[2] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[2] + ":1234"
+		+ filters[3] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[3] + ":1234"
+		+ filters[4] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[4] + ":1234"
+		+ filters[5] + preset + codec + bufsize
+		+ " -f mpegts udp://" + iplist[5] + ":1234";
+
+	system(buffer.c_str());
+}
+
 void mainw()
 {
+
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_wall();
 
@@ -87,16 +144,28 @@ void mainw()
 }
 
 
-int main()
+void main()
 {
 	Config c;
 	Wall wall(c);
+	std::vector<int> wallContext = wall.getDimensions();
+
+	int videoWidth = 1280;
+	int videoHeight = 720;
+
+	LOG(double(videoWidth) / double(wall.m_width));
+
+	wall.scaleWidth(double(videoHeight) / double(wall.m_height));
+	wall.scaleHeight(double(videoHeight) / double(wall.m_height));
+
 
 	wall.printWall();
 
-	LOG(wall.m_height);
-	LOG(wall.m_width);
+	system("python start_omx_on_wall.py");
+	run_ffmpeg_freeform(wall);
 
+	LOG(wallContext[0]);
+	LOG(wallContext[1]);
 	system("PAUSE");
 }
 

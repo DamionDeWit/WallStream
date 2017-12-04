@@ -19,6 +19,8 @@ public:
 	Wall(Config &c);					//  Wall needs a config 
 	
 	std::vector< int > getDimensions();
+	void scaleWidth(double ratio);
+	void scaleHeight(double ratio);
 
 	void printWall();
 

@@ -96,6 +96,28 @@ std::vector< int > Wall::getDimensions()
 	return results;
 }
 
+void Wall::scaleWidth(double ratio)
+{
+	for (int i = 0; i < Layout.size(); i++)
+	{
+		Layout[i].m_Width *= ratio;
+		Layout[i].m_X *= ratio;
+	}
+
+	m_width *= ratio;
+}
+
+void Wall::scaleHeight(double ratio)
+{
+	for (int i = 0; i < Layout.size(); i++)
+	{
+		Layout[i].m_Height *= ratio;
+		Layout[i].m_Y *= ratio;
+	}
+
+	m_height *= ratio;
+}
+
 void Wall::printWall()
 {
 	for (int i = 0; i < Layout.size(); i++)
