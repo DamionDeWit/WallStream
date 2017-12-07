@@ -96,6 +96,16 @@ std::vector< int > Wall::getDimensions()
 	return results;
 }
 
+std::vector< int > Wall::getRatio()
+{
+	std::vector< int > results;
+	int gcd = std::gcd(m_width, m_height);
+	results.push_back(m_width / gcd);
+	results.push_back(m_height / gcd);
+
+	return results;
+}
+
 void Wall::scaleWidth(double ratio)
 {
 	for (int i = 0; i < Layout.size(); i++)

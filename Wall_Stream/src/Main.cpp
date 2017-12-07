@@ -9,6 +9,7 @@
 
 
 #define LOG(x) std::cout << x << std::endl
+#define PAUSE system("PAUSE")
 
 
 
@@ -23,21 +24,18 @@ void run_ffmpeg_screenCap()
 
 	system(buffer.c_str());
 }
-
 void run_ffmpeg_cuvid()
 {
 	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\720_sample.divx -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output2.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output3.mp4";
 
 	system(buffer.c_str());
 }
-
 void run_ffmpeg_convert()
 {
 	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 -c:v h264_nvenc -filter:v \"crop=3000:1596:0:0\"  -preset llhq C:\\Users\\Pi\\Downloads\\3k_sample.mp4";
 
 	system(buffer.c_str());
 }
-
 void run_ffmpeg_wall()
 {
 	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 ";
@@ -139,18 +137,11 @@ void run_ffmpeg_freeform(Wall wall)
 	system(buffer.c_str());
 }
 
-void mainw()
-{
-
-	system("python start_omx_on_wall.py");
-	run_ffmpeg_wall();
-
-	system("PAUSE");
-}
 
 
 void main()
 {
+	// Variable initialization
 	Config c;
 	Wall wall(c);
 	std::vector<int> wallContext = wall.getDimensions();
@@ -158,20 +149,27 @@ void main()
 	int videoWidth = 1280;
 	int videoHeight = 720;
 
+	//  Logging some details for debugging
 	LOG(double(videoWidth) / double(wall.m_width));
 
+	// Match wall and video ratio
+
+	//  Scale wall down to the video
 	wall.scaleWidth(double(videoHeight) / double(wall.m_height));
 	wall.scaleHeight(double(videoHeight) / double(wall.m_height));
 
-
+	//  More logging for debugging 
 	wall.printWall();
+	LOG(wallContext[0]);
+	LOG(wallContext[1]);
+	PAUSE;
 
+	//  Starting the Wall
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_freeform(wall);
 
-	LOG(wallContext[0]);
-	LOG(wallContext[1]);
-	system("PAUSE");
+	// Is this even needed???
+	PAUSE;
 }
 
 

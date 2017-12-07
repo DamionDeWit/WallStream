@@ -2,6 +2,7 @@
 #define WALL_H
 
 #include <algorithm>
+#include <numeric>
 #include "screen.h"
 #include "config.h"
 
@@ -19,6 +20,7 @@ public:
 	Wall(Config &c);					//  Wall needs a config 
 	
 	std::vector< int > getDimensions();
+	std::vector< int > getRatio();
 	void scaleWidth(double ratio);
 	void scaleHeight(double ratio);
 
