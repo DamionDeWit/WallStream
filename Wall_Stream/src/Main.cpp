@@ -82,7 +82,12 @@ void run_ffmpeg_wall()
 
 void run_ffmpeg_freeform(Wall wall)
 {
-	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\720_sample.divx ";
+
+	const std::string inputs[] = {	"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.divx\" ",
+									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
+									};
 	const std::string &preset = "-preset ultrafast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = "-c:v h264 ";
@@ -90,7 +95,7 @@ void run_ffmpeg_freeform(Wall wall)
 	const std::string &bufsize = "-bufsize 2000k ";
 	std::vector<std::string> filters;
 	
-
+	//	Generate the crop filter per screen
 	for (int i = 0; i < wall.Layout.size(); i++)
 	{
 
@@ -117,7 +122,7 @@ void run_ffmpeg_freeform(Wall wall)
 		"192.168.60.246",
 	};
 
-	const std::string &buffer = "ffmpeg -re  " + input
+	const std::string &buffer = "ffmpeg -re  " + inputs[3]
 		+ filters[0] + preset + codec + bufsize
 		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ filters[1] + preset + codec + bufsize
