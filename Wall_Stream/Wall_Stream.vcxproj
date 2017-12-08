@@ -157,11 +157,13 @@
     <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\screen.cpp" />
+    <ClCompile Include="src\Video.cpp" />
     <ClCompile Include="src\wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\screen.h" />
+    <ClInclude Include="src\Video.h" />
     <ClInclude Include="src\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

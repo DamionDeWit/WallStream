@@ -1,14 +1,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <numeric>
 
 
 #include "config.h"
 #include "wall.h"
 #include "screen.h"
+#include "Video.h"
 
 
 #define LOG(x) std::cout << x << std::endl
+#define LOGRATIO(x) std::cout << x[0] << ":" << x[1] << std::endl
 #define PAUSE system("PAUSE")
 
 
@@ -78,7 +81,7 @@ void run_ffmpeg_wall()
 	system(buffer.c_str());
 }
 
-void run_ffmpeg_freeform(Wall wall)
+void run_ffmpeg_freeform(Wall wall, Video video)
 {
 
 	const std::string inputs[] = {	"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
@@ -97,7 +100,24 @@ void run_ffmpeg_freeform(Wall wall)
 	for (int i = 0; i < wall.Layout.size(); i++)
 	{
 
-		std::string filter = " -filter:v \"crop=";
+		std::string filter = " -filter:v \"";
+		//  Start
+
+		//  Pad
+		//filter.append("pad=");
+		//filter.append(std::to_string(video.m_width+video.m_paddingHorizontal));
+		//filter.append(":");
+		//filter.append(std::to_string(video.m_height + video.m_paddingVertical));
+		//filter.append(":");
+		//filter.append(std::to_string(video.m_paddingHorizontal/2));
+		//filter.append(":");
+		//filter.append(std::to_string(video.m_paddingVertical/2));
+
+
+		//filter.append(", ");
+
+		//  Crop
+		filter.append("crop=");
 		filter.append(std::to_string(wall.Layout[i].m_Width));
 		filter.append(":");
 		filter.append(std::to_string(wall.Layout[i].m_Height));
@@ -105,8 +125,10 @@ void run_ffmpeg_freeform(Wall wall)
 		filter.append(std::to_string(wall.Layout[i].m_X));
 		filter.append(":");
 		filter.append(std::to_string(wall.Layout[i].m_Y));
-		filter.append("\" ");
 
+		
+		//  End
+		filter.append("\" ");
 		filters.push_back(filter);
 		
 
@@ -120,7 +142,7 @@ void run_ffmpeg_freeform(Wall wall)
 		"192.168.60.246",
 	};
 
-	const std::string &buffer = "ffmpeg -re  " + inputs[3]
+	const std::string &buffer = "ffmpeg -re  " + inputs[1]
 		+ filters[0] + preset + codec + bufsize
 		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ filters[1] + preset + codec + bufsize
@@ -144,32 +166,57 @@ void main()
 	// Variable initialization
 	Config c;
 	Wall wall(c);
+	Video video(1280, 720);
 	std::vector<int> wallContext = wall.getDimensions();
 
-	int videoWidth = 1280;
-	int videoHeight = 720;
+	//int videoWidth = 1280;
+	//int videoHeight = 720;
+	//int videoGCD = std::gcd(videoWidth, videoHeight);
+	//std::vector< int > videoRatio;
+	//videoRatio.push_back(videoWidth/videoGCD);
+	//videoRatio.push_back(videoHeight/videoGCD);
 
-	//  Logging some details for debugging
-	LOG(double(videoWidth) / double(wall.m_width));
+
+
+
 
 	// Match wall and video ratio
+	while (double(wall.getRatio()[0])/double(wall.getRatio()[1]) != double(video.getRatio()[0])/double(video.getRatio()[1]))
+	{
+		if (double(wall.getRatio()[0]) / double(wall.getRatio()[1]) > double(video.getRatio()[0]) / double(video.getRatio()[1]))
+			video.m_paddingHorizontal++;
+
+		else
+			video.m_paddingVertical++;
+		//  Logging some details for debugging
+		//LOG(double(videoWidth) / double(wall.m_width));
+		
+		//LOGRATIO(wall.getRatio());
+		//LOG(double(wall.getRatio()[0]) / double(wall.getRatio()[1]));
+		//LOGRATIO(video.getRatio());
+		//LOG(double(video.getRatio()[0]) / double(video.getRatio()[1]));
+		
+		//LOG("Width: " << video.m_width + video.m_paddingHorizontal<< " Height: " << video.m_height + video.m_paddingVertical);
+	}
 
 	//  Scale wall down to the video
-	wall.scaleWidth(double(videoHeight) / double(wall.m_height));
-	wall.scaleHeight(double(videoHeight) / double(wall.m_height));
-
+	wall.scaleWidth(double(video.m_height + video.m_paddingVertical) / double(wall.m_height));
+	wall.scaleHeight(double(video.m_height + video.m_paddingVertical) / double(wall.m_height));
 	//  More logging for debugging 
-	wall.printWall();
-	LOG(wallContext[0]);
-	LOG(wallContext[1]);
-	PAUSE;
+	//wall.printWall();
+	//LOG(wallContext[0]);
+	//LOG(wallContext[1]);
+	
+	LOG("Video Width:" << video.m_width);
+	LOG("Video Padding H:" << video.m_paddingHorizontal);
+	LOG("Video Full Width:" << video.m_width + video.m_paddingHorizontal);
+
+
 
 	//  Starting the Wall
-	system("python start_omx_on_wall.py");
-	run_ffmpeg_freeform(wall);
-
-	// Is this even needed???
 	PAUSE;
+	system("python start_omx_on_wall.py");
+	run_ffmpeg_freeform(wall, video);
 }
 
 
