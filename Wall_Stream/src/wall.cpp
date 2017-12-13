@@ -10,6 +10,17 @@ Wall::Wall(Config &c)
 	getDimensions();
 }
 
+int Wall::getWidth() const
+{
+	return m_width;
+}
+
+int Wall::getHeight() const
+{
+	return m_height;
+}
+
+
 std::vector< int > Wall::getDimensions()
 {
 
@@ -127,6 +138,13 @@ void Wall::scaleHeight(double ratio)
 
 	m_height *= ratio;
 }
+
+void Wall::scale(double ratio)
+{
+	scaleWidth(ratio);
+	scaleHeight(ratio);
+}
+
 
 void Wall::printWall()
 {

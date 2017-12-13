@@ -12,6 +12,16 @@ Video::Video(int width, int height)
 	: m_width{width}, m_height{height}, m_paddingHorizontal{ 0 }, m_paddingVertical{ 0 }
 {}
 
+int Video::getWidth() const
+{
+	return m_width;
+}
+
+int Video::getHeight() const
+{
+	return m_height;
+}
+
 std::vector< int > Video::getRatio()
 {
 	std::vector< int > results;

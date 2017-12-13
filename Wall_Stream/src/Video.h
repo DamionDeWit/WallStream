@@ -6,7 +6,7 @@
 
 class Video
 {
-public:
+private:
 	int m_width;
 	int m_height;
 
@@ -18,7 +18,8 @@ public:
 	Video(int x);					//  Set Width and Height to x
 	Video(int width, int height);
 
-
+	int getWidth() const;
+	int getHeight() const;
 
 	std::vector< int > getRatio();
 };

@@ -8,21 +8,25 @@
 
 class Wall
 {
-public:		// public for testing purposes, private for non-testing
+private:		
 	int m_width;
 	int m_height;
 
 	Config m_Config;
 
+	void scaleWidth(double ratio);
+	void scaleHeight(double ratio);
 public:
 	std::vector< Screen > Layout;
 
 	Wall(Config &c);					//  Wall needs a config 
 	
+	int getWidth() const;
+	int getHeight() const;
+
 	std::vector< int > getDimensions();
 	std::vector< int > getRatio();
-	void scaleWidth(double ratio);
-	void scaleHeight(double ratio);
+	void scale(double ratio);
 
 	void printWall();
 

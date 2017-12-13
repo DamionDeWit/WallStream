@@ -96,6 +96,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 	const std::string &bufsize = "-bufsize 2000k ";
 	std::vector<std::string> filters;
 	
+
 	//	Generate the crop filter per screen
 	for (int i = 0; i < wall.Layout.size(); i++)
 	{
@@ -134,6 +135,8 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 
 	}
 
+
+
 	const std::string iplist[] = { "192.168.60.241",
 		"192.168.60.242",
 		"192.168.60.243",
@@ -142,43 +145,66 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		"192.168.60.246",
 	};
 
-	const std::string &buffer = "ffmpeg -re  " + inputs[1]
+	std::string buffer = "ffmpeg -re  " + inputs[1] + "\n"
 		+ filters[0] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[0] + ":1234"
+		+ " -f mpegts udp://" + iplist[0] + ":1234" + "\n"
 		+ filters[1] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[1] + ":1234"
+		+ " -f mpegts udp://" + iplist[1] + ":1234" + "\n"
 		+ filters[2] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[2] + ":1234"
+		+ " -f mpegts udp://" + iplist[2] + ":1234" + "\n"
 		+ filters[3] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[3] + ":1234"
+		+ " -f mpegts udp://" + iplist[3] + ":1234" + "\n"
 		+ filters[4] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[4] + ":1234"
+		+ " -f mpegts udp://" + iplist[4] + ":1234" + "\n"
 		+ filters[5] + preset + codec + bufsize
 		+ " -f mpegts udp://" + iplist[5] + ":1234";
 
-	system(buffer.c_str());
+	LOG(buffer);
 }
 
 
 
 void main()
-{
+{  
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(1280, 720);
+	Video video(500, 500);
 	std::vector<int> wallContext = wall.getDimensions();
 
+	////  Scale Wall to Video  ////
+
+	//  Scale Wall to match height of video
+	wall.scale(double(video.getHeight()) / double(wall.getHeight()));
+
+	if (wall.getWidth() < video.getWidth())
+	{
+		//  Scale Wall to match width of video
+		wall.scale(double( video.getWidth() ) / double( wall.getWidth() ));
+
+		//  Add Vertical Padding
+
+	}
+
+	else
+	{
+		//  Add Horizontal Padding
+	}
+
+	LOG("Wall Width:" << wall.getWidth());
+	LOG("Wall Height:" << wall.getHeight());
+	LOG("Video Width:" << video.getWidth());
+	LOG("Video Height:" << video.getHeight());
+
+
+
+#ifdef OLDSCALING
 	//int videoWidth = 1280;
 	//int videoHeight = 720;
 	//int videoGCD = std::gcd(videoWidth, videoHeight);
 	//std::vector< int > videoRatio;
 	//videoRatio.push_back(videoWidth/videoGCD);
 	//videoRatio.push_back(videoHeight/videoGCD);
-
-
-
-
 
 	// Match wall and video ratio
 	while (double(wall.getRatio()[0])/double(wall.getRatio()[1]) != double(video.getRatio()[0])/double(video.getRatio()[1]))
@@ -210,11 +236,11 @@ void main()
 	LOG("Video Width:" << video.m_width);
 	LOG("Video Padding H:" << video.m_paddingHorizontal);
 	LOG("Video Full Width:" << video.m_width + video.m_paddingHorizontal);
+#endif
 
-
-
+	return;
 	//  Starting the Wall
-	PAUSE;
+
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_freeform(wall, video);
 }
