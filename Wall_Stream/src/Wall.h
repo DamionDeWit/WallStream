@@ -5,6 +5,7 @@
 #include <numeric>
 #include "screen.h"
 #include "config.h"
+#include "Video.h"
 
 class Wall
 {
@@ -26,7 +27,9 @@ public:
 
 	std::vector< int > getDimensions();
 	std::vector< int > getRatio();
+	
 	void scale(double ratio);
+	void scaleLetterbox(Video &video);
 
 	void printWall();
 

@@ -78,6 +78,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 									"-i \"C:\\Users\\Pi\\Downloads\\500x500.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
+									"-i http://youtube.com/watch?v=GQe3JxJHpxQ"
 									};
 	const std::string &preset = " -preset ll ";
 	const std::string &profile = "-profile:v high444p ";
@@ -159,32 +160,12 @@ void main()
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(1280, 720);		//  Be sure that his matched the dimension of the video!!!
-	std::vector<int> wallContext = wall.getDimensions();
+	Video video(1280, 720);		//  Be sure that this matches the dimensions of the video!!!
 
-	////  Letterbox Scaling ////
-	//  Scale Wall to match height of video
-	wall.scale(double(video.getHeight()) / double(wall.getHeight()));
-
-	if (wall.getWidth() < video.getWidth())
-	{
-		//  Scale Wall to match width of video
-		wall.scale(double( video.getWidth() ) / double( wall.getWidth() ));
-
-		//  Add Vertical Padding
-		video.setPadding("vertical", wall.getHeight() - video.getHeight());
-	}
-	else
-	{
-		//  Add Horizontal Padding
-		video.setPadding("horizontal", wall.getWidth() - video.getWidth());
-	}
+	wall.scaleLetterbox(video);
 
 
 	//  Starting the Wall
-	LOG(wallContext[0]);
-	LOG(wallContext[1]);
-	PAUSE;
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_freeform(wall, video);
 	PAUSE;

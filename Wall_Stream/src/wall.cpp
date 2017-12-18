@@ -145,6 +145,26 @@ void Wall::scale(double ratio)
 	scaleHeight(ratio);
 }
 
+void Wall::scaleLetterbox(Video &video)
+{
+	////  Letterbox Scaling ////
+	//  Scale Wall to match height of video
+	scale(double(video.getHeight()) / double(getHeight()));
+
+	if (getWidth() < video.getWidth())
+	{
+		//  Scale Wall to match width of video
+		scale(double(video.getWidth()) / double(getWidth()));
+
+		//  Add Vertical Padding
+		video.setPadding("vertical", getHeight() - video.getHeight());
+	}
+	else
+	{
+		//  Add Horizontal Padding
+		video.setPadding("horizontal", getWidth() - video.getWidth());
+	}
+}
 
 void Wall::printWall()
 {
