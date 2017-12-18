@@ -27,18 +27,6 @@ void run_ffmpeg_screenCap()
 
 	system(buffer.c_str());
 }
-void run_ffmpeg_cuvid()
-{
-	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\720_sample.divx -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output2.mp4 -c:v h264_nvenc -profile:v high444p -pix_fmt yuv444p -preset fast output3.mp4";
-
-	system(buffer.c_str());
-}
-void run_ffmpeg_convert()
-{
-	const std::string &buffer = "ffmpeg -i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 -c:v h264_nvenc -filter:v \"crop=3000:1596:0:0\"  -preset llhq C:\\Users\\Pi\\Downloads\\3k_sample.mp4";
-
-	system(buffer.c_str());
-}
 void run_ffmpeg_wall()
 {
 	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 ";
@@ -83,7 +71,7 @@ void run_ffmpeg_wall()
 
 void run_ffmpeg_freeform(Wall wall, Video video)
 {
-
+	//  Be sure to change the dimensions of video in main.
 	const std::string inputs[] = { "-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\B - Various\\5-Front Projection.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.mp4\" ",
@@ -147,7 +135,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		"192.168.60.246",
 	};
 
-	std::string buffer = "ffmpeg -re " + inputs[1]
+	std::string buffer = "ffmpeg -re " + inputs[2]
 		+ codec + preset + filters[0] + bufsize
 		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ codec + preset + filters[1] + bufsize
@@ -165,22 +153,16 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 	system(buffer.c_str());
 }
 
-void ffmpeg()
-{
-	system("ffmpeg -re -i \"C:\\Users\\Pi\\Downloads\\720_sample.divx\" -c:v h264_nvenc -f mpegts udp://192.168.60.241:1234");
-}
-
 
 void main()
 {  
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(1920, 1080);
+	Video video(1280, 720);		//  Be sure that his matched the dimension of the video!!!
 	std::vector<int> wallContext = wall.getDimensions();
 
-	////  Scale Wall to Video  ////
-
+	////  Letterbox Scaling ////
 	//  Scale Wall to match height of video
 	wall.scale(double(video.getHeight()) / double(wall.getHeight()));
 
@@ -192,62 +174,12 @@ void main()
 		//  Add Vertical Padding
 		video.setPadding("vertical", wall.getHeight() - video.getHeight());
 	}
-
 	else
 	{
 		//  Add Horizontal Padding
 		video.setPadding("horizontal", wall.getWidth() - video.getWidth());
 	}
 
-	LOG("Wall Width:" << wall.getWidth());
-	LOG("Wall Height:" << wall.getHeight());
-	LOG("Video Width:" << video.getWidth());
-	LOG("Video Height:" << video.getHeight());
-	LOG("Video Padding Horizontal: " << video.getPadding("horizontal"));
-	LOG("Video Padding Vertical: " << video.getPadding("vertical"));
-
-
-
-
-#ifdef OLDSCALING
-	//int videoWidth = 1280;
-	//int videoHeight = 720;
-	//int videoGCD = std::gcd(videoWidth, videoHeight);
-	//std::vector< int > videoRatio;
-	//videoRatio.push_back(videoWidth/videoGCD);
-	//videoRatio.push_back(videoHeight/videoGCD);
-
-	// Match wall and video ratio
-	while (double(wall.getRatio()[0])/double(wall.getRatio()[1]) != double(video.getRatio()[0])/double(video.getRatio()[1]))
-	{
-		if (double(wall.getRatio()[0]) / double(wall.getRatio()[1]) > double(video.getRatio()[0]) / double(video.getRatio()[1]))
-			video.m_paddingHorizontal++;
-
-		else
-			video.m_paddingVertical++;
-		//  Logging some details for debugging
-		//LOG(double(videoWidth) / double(wall.m_width));
-		
-		//LOGRATIO(wall.getRatio());
-		//LOG(double(wall.getRatio()[0]) / double(wall.getRatio()[1]));
-		//LOGRATIO(video.getRatio());
-		//LOG(double(video.getRatio()[0]) / double(video.getRatio()[1]));
-		
-		//LOG("Width: " << video.m_width + video.m_paddingHorizontal<< " Height: " << video.m_height + video.m_paddingVertical);
-	}
-
-	//  Scale wall down to the video
-	wall.scaleWidth(double(video.m_height + video.m_paddingVertical) / double(wall.m_height));
-	wall.scaleHeight(double(video.m_height + video.m_paddingVertical) / double(wall.m_height));
-	//  More logging for debugging 
-	//wall.printWall();
-	LOG(wallContext[0]);
-	LOG(wallContext[1]);
-	
-	LOG("Video Width:" << video.m_width);
-	LOG("Video Padding H:" << video.m_paddingHorizontal);
-	LOG("Video Full Width:" << video.m_width + video.m_paddingHorizontal);
-#endif
 
 	//  Starting the Wall
 	LOG(wallContext[0]);
