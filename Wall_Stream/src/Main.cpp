@@ -77,10 +77,9 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\500x500.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
-									"-i http://youtube.com/watch?v=GQe3JxJHpxQ"
+									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" "
 									};
-	const std::string &preset = " -preset ll ";
+	const std::string &preset = " -preset fast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = " -c:v h264_nvenc";
 	const std::string &hwaccel = "-hwaccel cuvid -c:v h264_cuvid ";
@@ -88,7 +87,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 	std::vector<std::string> filters;
 	
 
-	//	Generate the crop filter per screen
+	//	Generate the filters per screen
 	for (int i = 0; i < wall.Layout.size(); i++)
 	{
 
@@ -96,18 +95,20 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		//  Start
 
 		//  Pad
-		filter.append("pad=");
-		filter.append(std::to_string(video.getWidth() + video.getPadding("horizontal")));
-		filter.append(":");
-		filter.append(std::to_string(video.getHeight() + video.getPadding("vertical")));
-		filter.append(":");
-		filter.append((std::to_string(video.getPadding("horizontal")/2)));
-		filter.append(":");
-		filter.append((std::to_string(video.getPadding("vertical")/2)));
-		filter.append(":black");
-
-		filter.append(", ");
-
+		if (video.getPadding("horizontal") || video.getPadding("vertical"))		//  Check if there is padding applied
+		{
+			filter.append("pad=");
+			filter.append(std::to_string(video.getWidth() + video.getPadding("horizontal")));
+			filter.append(":");
+			filter.append(std::to_string(video.getHeight() + video.getPadding("vertical")));
+			filter.append(":");
+			filter.append((std::to_string(video.getPadding("horizontal")/2)));
+			filter.append(":");
+			filter.append((std::to_string(video.getPadding("vertical")/2)));
+			filter.append(":black");
+			
+			filter.append(", ");
+		}
 		//  Crop
 		filter.append("crop=");
 		filter.append(std::to_string(wall.Layout[i].m_Width));
@@ -134,9 +135,10 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		"192.168.60.244",
 		"192.168.60.245",
 		"192.168.60.246",
+		"192.168.60.247",
 	};
 
-	std::string buffer = "ffmpeg -re " + inputs[2]
+	std::string buffer = "ffmpeg -re " + inputs[5]
 		+ codec + preset + filters[0] + bufsize
 		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ codec + preset + filters[1] + bufsize
@@ -148,7 +150,19 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		+ codec + preset + filters[4] + bufsize
 		+ " -f mpegts udp://" + iplist[4] + ":1234"
 		+ codec + preset + filters[5] + bufsize
-		+ " -f mpegts udp://" + iplist[5] + ":1234";
+		+ " -f mpegts udp://" + iplist[5] + ":1234"
+		+ codec + preset + filters[0] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234"
+		+ codec + preset + filters[1] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234"
+		+ codec + preset + filters[2] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234"
+		+ codec + preset + filters[3] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234"
+		+ codec + preset + filters[4] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234"
+		+ codec + preset + filters[5] + bufsize
+		+ " -f mpegts udp://" + iplist[6] + ":1234";
 
 	LOG(buffer);
 	system(buffer.c_str());
@@ -160,10 +174,9 @@ void main()
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(1280, 720);		//  Be sure that this matches the dimensions of the video!!!
-
-	wall.scaleLetterbox(video);
-
+	Video video(3840, 2160);		//  Be sure that this matches the dimensions of the video!!!
+	
+	wall.scaleFitFrame(video);
 
 	//  Starting the Wall
 	system("python start_omx_on_wall.py");

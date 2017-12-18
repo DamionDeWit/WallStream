@@ -9,6 +9,9 @@
 
 class Wall
 {
+public:
+	int offset_x;
+	int offset_y;
 private:		
 	int m_width;
 	int m_height;
@@ -30,6 +33,7 @@ public:
 	
 	void scale(double ratio);
 	void scaleLetterbox(Video &video);
+	void scaleFitFrame(Video &video);
 
 	void printWall();
 

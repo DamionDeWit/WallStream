@@ -166,6 +166,26 @@ void Wall::scaleLetterbox(Video &video)
 	}
 }
 
+void Wall::scaleFitFrame(Video &video)
+{
+	//  Scale to fit frame
+	scale(double(video.getWidth()) / double(getWidth()));
+
+	if (getHeight() > video.getHeight())
+	{
+		//  set wall height equal to video height
+		scale(double(video.getHeight()) / double(getHeight()));
+
+		//  add x offset
+		offset_x = (video.getWidth() - getWidth()) / 2;
+	}
+	else
+	{
+		//  add y offset
+		offset_y = (video.getHeight() - getHeight()) / 2;
+	}
+}
+
 void Wall::printWall()
 {
 	for (int i = 0; i < Layout.size(); i++)
