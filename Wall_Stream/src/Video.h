@@ -20,8 +20,19 @@ public:
 
 	int getWidth() const;
 	int getHeight() const;
-
+	int getPadding(const char* direction) const;
 	std::vector< int > getRatio();
+
+	void setPadding(const char* direction, int amount);
+
+private:
+	int getPaddingHorizontal() const;
+	int getPaddingVertical() const;
+
+	void setPaddingHorizontal(int amount);
+	void setPaddingVertical(int amount);
+
+
 };
 
 

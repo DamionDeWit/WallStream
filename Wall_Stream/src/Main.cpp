@@ -84,16 +84,18 @@ void run_ffmpeg_wall()
 void run_ffmpeg_freeform(Wall wall, Video video)
 {
 
-	const std::string inputs[] = {	"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.divx\" ",
+	const std::string inputs[] = { "-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\B - Various\\5-Front Projection.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Downloads\\500x500.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
 									};
-	const std::string &preset = "-preset ultrafast ";
+	const std::string &preset = " -preset ll ";
 	const std::string &profile = "-profile:v high444p ";
-	const std::string &codec = "-c:v h264 ";
+	const std::string &codec = " -c:v h264_nvenc";
 	const std::string &hwaccel = "-hwaccel cuvid -c:v h264_cuvid ";
-	const std::string &bufsize = "-bufsize 2000k ";
+	const std::string &bufsize = " -bufsize 2000k";
 	std::vector<std::string> filters;
 	
 
@@ -105,17 +107,17 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		//  Start
 
 		//  Pad
-		//filter.append("pad=");
-		//filter.append(std::to_string(video.m_width+video.m_paddingHorizontal));
-		//filter.append(":");
-		//filter.append(std::to_string(video.m_height + video.m_paddingVertical));
-		//filter.append(":");
-		//filter.append(std::to_string(video.m_paddingHorizontal/2));
-		//filter.append(":");
-		//filter.append(std::to_string(video.m_paddingVertical/2));
+		filter.append("pad=");
+		filter.append(std::to_string(video.getWidth() + video.getPadding("horizontal")));
+		filter.append(":");
+		filter.append(std::to_string(video.getHeight() + video.getPadding("vertical")));
+		filter.append(":");
+		filter.append((std::to_string(video.getPadding("horizontal")/2)));
+		filter.append(":");
+		filter.append((std::to_string(video.getPadding("vertical")/2)));
+		filter.append(":black");
 
-
-		//filter.append(", ");
+		filter.append(", ");
 
 		//  Crop
 		filter.append("crop=");
@@ -129,7 +131,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 
 		
 		//  End
-		filter.append("\" ");
+		filter.append("\"");
 		filters.push_back(filter);
 		
 
@@ -145,23 +147,28 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		"192.168.60.246",
 	};
 
-	std::string buffer = "ffmpeg -re  " + inputs[1] + "\n"
-		+ filters[0] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[0] + ":1234" + "\n"
-		+ filters[1] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[1] + ":1234" + "\n"
-		+ filters[2] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[2] + ":1234" + "\n"
-		+ filters[3] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[3] + ":1234" + "\n"
-		+ filters[4] + preset + codec + bufsize
-		+ " -f mpegts udp://" + iplist[4] + ":1234" + "\n"
-		+ filters[5] + preset + codec + bufsize
+	std::string buffer = "ffmpeg -re " + inputs[1]
+		+ codec + preset + filters[0] + bufsize
+		+ " -f mpegts udp://" + iplist[0] + ":1234"
+		+ codec + preset + filters[1] + bufsize
+		+ " -f mpegts udp://" + iplist[1] + ":1234"
+		+ codec + preset + filters[2] + bufsize
+		+ " -f mpegts udp://" + iplist[2] + ":1234"
+		+ codec + preset + filters[3] + bufsize
+		+ " -f mpegts udp://" + iplist[3] + ":1234"
+		+ codec + preset + filters[4] + bufsize
+		+ " -f mpegts udp://" + iplist[4] + ":1234"
+		+ codec + preset + filters[5] + bufsize
 		+ " -f mpegts udp://" + iplist[5] + ":1234";
 
 	LOG(buffer);
+	system(buffer.c_str());
 }
 
+void ffmpeg()
+{
+	system("ffmpeg -re -i \"C:\\Users\\Pi\\Downloads\\720_sample.divx\" -c:v h264_nvenc -f mpegts udp://192.168.60.241:1234");
+}
 
 
 void main()
@@ -169,7 +176,7 @@ void main()
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(500, 500);
+	Video video(1920, 1080);
 	std::vector<int> wallContext = wall.getDimensions();
 
 	////  Scale Wall to Video  ////
@@ -183,18 +190,22 @@ void main()
 		wall.scale(double( video.getWidth() ) / double( wall.getWidth() ));
 
 		//  Add Vertical Padding
-
+		video.setPadding("vertical", wall.getHeight() - video.getHeight());
 	}
 
 	else
 	{
 		//  Add Horizontal Padding
+		video.setPadding("horizontal", wall.getWidth() - video.getWidth());
 	}
 
 	LOG("Wall Width:" << wall.getWidth());
 	LOG("Wall Height:" << wall.getHeight());
 	LOG("Video Width:" << video.getWidth());
 	LOG("Video Height:" << video.getHeight());
+	LOG("Video Padding Horizontal: " << video.getPadding("horizontal"));
+	LOG("Video Padding Vertical: " << video.getPadding("vertical"));
+
 
 
 
@@ -230,19 +241,21 @@ void main()
 	wall.scaleHeight(double(video.m_height + video.m_paddingVertical) / double(wall.m_height));
 	//  More logging for debugging 
 	//wall.printWall();
-	//LOG(wallContext[0]);
-	//LOG(wallContext[1]);
+	LOG(wallContext[0]);
+	LOG(wallContext[1]);
 	
 	LOG("Video Width:" << video.m_width);
 	LOG("Video Padding H:" << video.m_paddingHorizontal);
 	LOG("Video Full Width:" << video.m_width + video.m_paddingHorizontal);
 #endif
 
-	return;
 	//  Starting the Wall
-
+	LOG(wallContext[0]);
+	LOG(wallContext[1]);
+	PAUSE;
 	system("python start_omx_on_wall.py");
 	run_ffmpeg_freeform(wall, video);
+	PAUSE;
 }
 
 

@@ -22,6 +22,25 @@ int Video::getHeight() const
 	return m_height;
 }
 
+int Video::getPaddingHorizontal() const
+{
+	return m_paddingHorizontal;
+}
+
+int Video::getPaddingVertical() const
+{
+	return m_paddingVertical;
+}
+
+int Video::getPadding(const char* direction) const
+{
+	/// direction: "horizontal" or "vertical"
+	if (direction == "horizontal")
+		return getPaddingHorizontal();
+	else if (direction == "vertical")
+		return getPaddingVertical();
+}
+
 std::vector< int > Video::getRatio()
 {
 	std::vector< int > results;
@@ -30,4 +49,23 @@ std::vector< int > Video::getRatio()
 	results.push_back((m_height+m_paddingVertical) / gcd);
 
 	return results;
+}
+
+void Video::setPaddingHorizontal(int amount)
+{
+	m_paddingHorizontal = amount;
+}
+
+void Video::setPaddingVertical(int amount)
+{
+	m_paddingVertical = amount;
+}
+
+void Video::setPadding(const char* direction, int amount)
+{
+	if (direction == "horizontal")
+		setPaddingHorizontal(amount);
+	else if (direction == "vertical")
+		setPaddingVertical(amount);
+		
 }
