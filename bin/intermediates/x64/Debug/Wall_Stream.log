@@ -1,10 +1,2 @@
-﻿  wall.cpp
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(124): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(125): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(128): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(135): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(136): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\pi\source\repos\wall_stream\wall_stream\src\wall.cpp(139): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-  Main.cpp
-  Generating Code...
+﻿  Main.cpp
   Wall_Stream.vcxproj -> C:\Users\Pi\Source\Repos\Wall_Stream\bin\x64\Debug\Wall_Stream.exe

@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <numeric>
-
 
 #include "config.h"
 #include "wall.h"
@@ -11,7 +9,6 @@
 
 
 #define LOG(x) std::cout << x << std::endl
-#define LOGRATIO(x) std::cout << x[0] << ":" << x[1] << std::endl
 #define PAUSE system("PAUSE")
 
 
@@ -69,7 +66,7 @@ void run_ffmpeg_wall()
 	system(buffer.c_str());
 }
 
-void run_ffmpeg_freeform(Wall wall, Video video)
+void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 {
 	//  Be sure to change the dimensions of video in main.
 	const std::string inputs[] = { "-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
@@ -77,7 +74,9 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\500x500.mp4\" ",
 									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" "
+									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Videos\\4K Video Downloader\\GoPro  Tomorrowland in 4K.mp4\" ",
+									"-i \"C:\\Users\\Pi\\Videos\\4K Video Downloader\\Ghost Towns in 8K.mp4\" "
 									};
 	const std::string &preset = " -preset fast ";
 	const std::string &profile = "-profile:v high444p ";
@@ -138,7 +137,7 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		"192.168.60.247",
 	};
 
-	std::string buffer = "ffmpeg -re " + inputs[5]
+	std::string buffer = "ffmpeg -re -i \"" + input + "\" "
 		+ codec + preset + filters[0] + bufsize
 		+ " -f mpegts udp://" + iplist[0] + ":1234"
 		+ codec + preset + filters[1] + bufsize
@@ -150,37 +149,36 @@ void run_ffmpeg_freeform(Wall wall, Video video)
 		+ codec + preset + filters[4] + bufsize
 		+ " -f mpegts udp://" + iplist[4] + ":1234"
 		+ codec + preset + filters[5] + bufsize
-		+ " -f mpegts udp://" + iplist[5] + ":1234"
-		+ codec + preset + filters[0] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234"
-		+ codec + preset + filters[1] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234"
-		+ codec + preset + filters[2] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234"
-		+ codec + preset + filters[3] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234"
-		+ codec + preset + filters[4] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234"
-		+ codec + preset + filters[5] + bufsize
-		+ " -f mpegts udp://" + iplist[6] + ":1234";
+		+ " -f mpegts udp://" + iplist[5] + ":1234";
 
 	LOG(buffer);
 	system(buffer.c_str());
 }
 
 
-void main()
-{  
+void main(int argc, char *argv[])
+{
 	// Variable initialization
 	Config c;
 	Wall wall(c);
-	Video video(3840, 2160);		//  Be sure that this matches the dimensions of the video!!!
-	
-	wall.scaleFitFrame(video);
+	Video video(7680, 4320);		//  Be sure that this matches the dimensions of the video!!!
+	std::string input;
 
+	if (argc >= 2)
+	{
+		input = argv[1];
+	}
+	else
+	{
+		LOG("No input file...");
+		PAUSE;
+		return;
+	}
+
+	wall.scaleFitFrame(video);
 	//  Starting the Wall
-	system("python start_omx_on_wall.py");
-	run_ffmpeg_freeform(wall, video);
+	system("python C:\\Users\\Pi\\source\\repos\\Wall_Stream\\Wall_Stream\\start_omx_on_wall.py");
+	run_ffmpeg_freeform(wall, video, input);
 	PAUSE;
 }
 
