@@ -69,22 +69,13 @@ void run_ffmpeg_wall()
 void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 {
 	//  Be sure to change the dimensions of video in main.
-	const std::string inputs[] = { "-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\C - Convergence\\2-Small 1080p Crosshatch.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Desktop\\MP4-2c\\Misc Patterns\\B - Various\\5-Front Projection.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\720_sample.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\500x500.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\3k_sample.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Downloads\\4k_sample.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Videos\\4K Video Downloader\\GoPro  Tomorrowland in 4K.mp4\" ",
-									"-i \"C:\\Users\\Pi\\Videos\\4K Video Downloader\\Ghost Towns in 8K.mp4\" "
-									};
 	const std::string &preset = " -preset fast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = " -c:v h264_nvenc";
 	const std::string &hwaccel = "-hwaccel cuvid -c:v h264_cuvid ";
 	const std::string &bufsize = " -bufsize 2000k";
 	std::vector<std::string> filters;
-	
+
 
 	//	Generate the filters per screen
 	for (int i = 0; i < wall.Layout.size(); i++)
@@ -101,11 +92,11 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 			filter.append(":");
 			filter.append(std::to_string(video.getHeight() + video.getPadding("vertical")));
 			filter.append(":");
-			filter.append((std::to_string(video.getPadding("horizontal")/2)));
+			filter.append((std::to_string(video.getPadding("horizontal") / 2)));
 			filter.append(":");
-			filter.append((std::to_string(video.getPadding("vertical")/2)));
+			filter.append((std::to_string(video.getPadding("vertical") / 2)));
 			filter.append(":black");
-			
+
 			filter.append(", ");
 		}
 		//  Crop
@@ -118,38 +109,31 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 		filter.append(":");
 		filter.append(std::to_string(wall.Layout[i].m_Y + wall.offset_y));
 
-		
+
 		//  End
 		filter.append("\"");
 		filters.push_back(filter);
-		
+
 
 	}
 
 
 
-	const std::string iplist[] = { "192.168.60.241",
+	std::vector<std::string> iplist = { 
+		"192.168.60.241",
 		"192.168.60.242",
 		"192.168.60.243",
 		"192.168.60.244",
 		"192.168.60.245",
-		"192.168.60.246",
-		"192.168.60.247",
+		"192.168.60.246"
 	};
 
-	std::string buffer = "ffmpeg -re -i \"" + input + "\" "
-		+ codec + preset + filters[0] + bufsize
-		+ " -f mpegts udp://" + iplist[0] + ":1234"
-		+ codec + preset + filters[1] + bufsize
-		+ " -f mpegts udp://" + iplist[1] + ":1234"
-		+ codec + preset + filters[2] + bufsize
-		+ " -f mpegts udp://" + iplist[2] + ":1234"
-		+ codec + preset + filters[3] + bufsize
-		+ " -f mpegts udp://" + iplist[3] + ":1234"
-		+ codec + preset + filters[4] + bufsize
-		+ " -f mpegts udp://" + iplist[4] + ":1234"
-		+ codec + preset + filters[5] + bufsize
-		+ " -f mpegts udp://" + iplist[5] + ":1234";
+	std::string buffer = "ffmpeg -re -i \"" + input + "\" ";
+	for (int i = 0; i < iplist.size(); i++)
+	{
+		buffer	+=	codec + preset + filters[i] + bufsize
+				+	" -f mpegts udp://" + iplist[i] + ":1234";
+	}
 
 	LOG(buffer);
 	system(buffer.c_str());
