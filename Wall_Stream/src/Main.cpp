@@ -114,9 +114,9 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 		filter.append(":");
 		filter.append(std::to_string(wall.Layout[i].m_Height));
 		filter.append(":");
-		filter.append(std::to_string(wall.Layout[i].m_X));
+		filter.append(std::to_string(wall.Layout[i].m_X + wall.offset_x));
 		filter.append(":");
-		filter.append(std::to_string(wall.Layout[i].m_Y));
+		filter.append(std::to_string(wall.Layout[i].m_Y + wall.offset_y));
 
 		
 		//  End
