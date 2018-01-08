@@ -1,9 +1,10 @@
 #include <iostream>
 #include "wall.h"
 
-Wall::Wall(Config &c)
-	: m_Config{ c }
+Wall::Wall(Config &c)						//  Constuctor for Wall Object
+	: m_Config{ c }							//  Sets m_Config to c
 {
+	//  For each screen in the config, add the screen to the Layout vector
 	for (int i = 0; i < m_Config.m_Screens.size(); i++)
 		Layout.push_back(m_Config.m_Screens[i]);
 
@@ -107,7 +108,7 @@ std::vector< int > Wall::getDimensions()
 	return results;
 }
 
-std::vector< int > Wall::getRatio()
+std::vector< int > Wall::getRatio()			//  Not sure if this is still used, shouldn't be needed for the current way of scaling
 {
 	std::vector< int > results;
 	int gcd = std::gcd(m_width, m_height);
@@ -117,37 +118,40 @@ std::vector< int > Wall::getRatio()
 	return results;
 }
 
-void Wall::scaleWidth(double ratio)
+void Wall::scaleWidth(double x)			//  Scale the width of the wall
 {
 	for (int i = 0; i < Layout.size(); i++)
 	{
-		Layout[i].m_Width *= ratio;
-		Layout[i].m_X *= ratio;
+		Layout[i].m_Width *= x;
+		Layout[i].m_X *= x;
 	}
 
-	m_width *= ratio;
+	m_width *= x;
 }
 
-void Wall::scaleHeight(double ratio)
+void Wall::scaleHeight(double x)		//  Scale the height of the wall
 {
 	for (int i = 0; i < Layout.size(); i++)
 	{
-		Layout[i].m_Height *= ratio;
-		Layout[i].m_Y *= ratio;
+		Layout[i].m_Height *= x;
+		Layout[i].m_Y *= x;
 	}
 
-	m_height *= ratio;
+	m_height *= x;
 }
 
-void Wall::scale(double ratio)
+void Wall::scale(double ratio)			//  Scale the wall, width and height should be equally scaled to not lose the correct aspect ratio
 {
 	scaleWidth(ratio);
 	scaleHeight(ratio);
 }
 
-void Wall::scaleLetterbox(Video &video)
+void Wall::scaleLetterbox(Video &video)	
 {
 	////  Letterbox Scaling ////
+	//  Adding a letterbox seems to be heavy on the GPU at high resolutions such as 4K
+	//  Worked fine at 720p
+
 	//  Scale Wall to match height of video
 	scale(double(video.getHeight()) / double(getHeight()));
 
@@ -168,6 +172,10 @@ void Wall::scaleLetterbox(Video &video)
 
 void Wall::scaleFitFrame(Video &video)
 {
+	//// Fit to Frame Scaling ////
+	//  Works great up to 8K (Tested)
+	//  Will lose some of the image at top-bottom or left-right if aspect ratio of the video and the wall do not match (overscan effect)
+
 	//  Scale to fit frame
 	scale(double(video.getWidth()) / double(getWidth()));
 
@@ -186,7 +194,7 @@ void Wall::scaleFitFrame(Video &video)
 	}
 }
 
-void Wall::printWall()
+void Wall::printWall()				//  For your debugging purposes
 {
 	for (int i = 0; i < Layout.size(); i++)
 		Layout[i].Print();
@@ -199,7 +207,7 @@ void Wall::printWall()
 
 
 
-///// Wall using grid system
+///// *OLD CODE* Wall using grid system
 /*
 #include <vector>
 #include <string>
