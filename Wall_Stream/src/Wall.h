@@ -18,8 +18,8 @@ private:
 
 	Config m_Config;
 
-	void scaleWidth(double ratio);
-	void scaleHeight(double ratio);
+	void scaleWidth(double x);
+	void scaleHeight(double x);
 public:
 	std::vector< Screen > Layout;
 
