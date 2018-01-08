@@ -9,11 +9,11 @@
 
 
 #define LOG(x) std::cout << x << std::endl
-#define PAUSE system("PAUSE")
+#define PAUSE system("PAUSE")				//  system("PAUSE") should be windows only, consider making this multi-platform is needed
 
 
 
-void run_ffmpeg_screenCap()
+void run_ffmpeg_screenCap()					//  *OLD CODE* Old function in which I tried to use a screencapture as input
 {
 	const std::string &input = "-f dshow -i video=\"UScreenCapture\"";
 
@@ -24,7 +24,7 @@ void run_ffmpeg_screenCap()
 
 	system(buffer.c_str());
 }
-void run_ffmpeg_wall()
+void run_ffmpeg_wall()						//  *OLD CODE* Seems to be the starting point of the current function in use
 {
 	const std::string &input = "-i C:\\Users\\Pi\\Downloads\\4k_sample.mp4 ";
 	const std::string &preset = "-preset ultrafast ";
@@ -66,9 +66,9 @@ void run_ffmpeg_wall()
 	system(buffer.c_str());
 }
 
-void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
+void run_ffmpeg_freeform(Wall wall, Video video, std::string input)				//  Function that's currently in use
 {
-	//  Be sure to change the dimensions of video in main.
+	//  Be sure to change the dimensions of video in main!!!
 	const std::string &preset = " -preset fast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = " -c:v h264_nvenc";
@@ -119,7 +119,7 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 
 
 
-	std::vector<std::string> iplist = { 
+	std::vector<std::string> iplist = {				//  IP of each Pi, should become dynamic based on a config
 		"192.168.60.241",
 		"192.168.60.242",
 		"192.168.60.243",
@@ -128,15 +128,19 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 		"192.168.60.246"
 	};
 
-	std::string buffer = "ffmpeg -re -i \"" + input + "\" ";
-	for (int i = 0; i < iplist.size(); i++)
+
+	//  Generate a command which starts ffmpeg with the required arguments
+
+	std::string buffer = "ffmpeg -re -i \"" + input + "\" ";		//  Start by executing ffmpeg and giving the input
+
+	for (int i = 0; i < iplist.size(); i++)							//  Generate an output for each screen
 	{
 		buffer	+=	codec + preset + filters[i] + bufsize
 				+	" -f mpegts udp://" + iplist[i] + ":1234";
 	}
 
-	LOG(buffer);
-	system(buffer.c_str());
+	LOG(buffer);													//  Log your command before executing, comes in handy for debugging
+	system(buffer.c_str());											//  Start ffmpeg
 }
 
 
@@ -148,9 +152,9 @@ void main(int argc, char *argv[])
 	Video video(7680, 4320);		//  Be sure that this matches the dimensions of the video!!!
 	std::string input;
 
-	if (argc >= 2)
+	if (argc >= 2)					//  Is there a video given?
 	{
-		input = argv[1];
+		input = argv[1];			//  Set input to the second argument, first argument is always the location of the program
 	}
 	else
 	{
@@ -159,7 +163,8 @@ void main(int argc, char *argv[])
 		return;
 	}
 
-	wall.scaleFitFrame(video);
+	wall.scaleFitFrame(video);		//  Method of Wall which makes the wall fit in the video
+
 	//  Starting the Wall
 	system("python C:\\Users\\Pi\\source\\repos\\Wall_Stream\\Wall_Stream\\start_omx_on_wall.py");
 	run_ffmpeg_freeform(wall, video, input);
@@ -170,7 +175,7 @@ void main(int argc, char *argv[])
 
 
 
-////  Grid wall
+////  *OLD CODE* Grid wall
 /*void test(Wall &wall)
 {
 	for (int i = 0; i < 6; i++)
