@@ -108,7 +108,7 @@ int getVideoWidth(char* url)
 	for (unsigned int i = 0; i < pFormatCtx->nb_streams; i++)
 	{
 		if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
-			return pFormatCtx->streams[i]->codecpar->height;
+			return pFormatCtx->streams[i]->codecpar->width;
 	}
 
 	return -1; // Didn't find a video stream
