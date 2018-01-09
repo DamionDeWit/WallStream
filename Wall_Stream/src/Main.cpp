@@ -85,7 +85,7 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)				//  Funct
 
 
 	//	Generate the filters per screen
-	for (int i = 0; i < wall.Layout.size(); i++)
+	for (unsigned int i = 0; i < wall.Layout.size(); i++)
 	{
 
 		std::string filter = " -filter:v \"";
@@ -140,7 +140,7 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)				//  Funct
 
 	std::string buffer = "ffmpeg -re -i \"" + input + "\" ";		//  Start by executing ffmpeg and giving the input
 
-	for (int i = 0; i < iplist.size(); i++)							//  Generate an output for each screen
+	for (unsigned int i = 0; i < iplist.size(); i++)				//  Generate an output for each screen
 	{
 		buffer	+=	codec + preset + filters[i] + bufsize
 				+	" -f mpegts udp://" + iplist[i] + ":1234";

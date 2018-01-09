@@ -39,6 +39,8 @@ int Video::getPadding(const char* direction) const
 		return getPaddingHorizontal();
 	else if (direction == "vertical")
 		return getPaddingVertical();
+	else
+		return NULL;
 }
 
 std::vector< int > Video::getRatio()
