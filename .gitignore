@@ -8,3 +8,4 @@ bin/
 
 *.divx
 *.mp4
+/Wall_Stream/dependencies/ffmpeg/examples
