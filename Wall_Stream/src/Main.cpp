@@ -1,7 +1,3 @@
-extern "C" {
-#include <libavformat/avformat.h>
-}
-
 #include <iostream>
 #include <string>
 #include <vector>
