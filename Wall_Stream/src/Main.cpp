@@ -102,7 +102,7 @@ void main(int argc, char* argv[])
 		return;
 	}
 
-	Video video(input);		//  Be sure that this matches the dimensions of the video!!!
+	Video video(input);
 	wall.scaleFitFrame(video);		//  Method of Wall which makes the wall fit in the video
 
 	//  Starting the Wall
