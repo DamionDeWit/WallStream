@@ -1,8 +1,13 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
+extern "C" {
+#include <libavformat/avformat.h>
+}
+
 #include <vector>
 #include <numeric>
+#include <string>
 
 class Video
 {
@@ -14,7 +19,7 @@ private:
 	int m_paddingVertical;
 
 public:
-	Video();						//  Set Width and Height to 0
+	Video(std::string &url);			//  Get Width and Height from the url
 	Video(int x);					//  Set Width and Height to x
 	Video(int width, int height);
 

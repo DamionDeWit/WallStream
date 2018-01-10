@@ -1,8 +1,43 @@
 #include "Video.h"
 
-Video::Video() 
-	: m_width{0}, m_height{0}, m_paddingHorizontal{0}, m_paddingVertical{0}
-{}
+Video::Video(std::string &url) 
+	: m_paddingHorizontal{0}, m_paddingVertical{0}
+{
+	AVFormatContext *pFormatCtx = NULL;
+
+	// Register all formats and codecs
+	av_register_all();
+
+	// Open video file
+	if (avformat_open_input(&pFormatCtx, url.c_str(), NULL, NULL) != 0)
+	{
+		m_width = NULL;		// Couldn't open file
+		m_height = NULL;
+	}
+
+	// Retrieve stream information
+	if (avformat_find_stream_info(pFormatCtx, NULL) < 0)
+	{
+		m_width = NULL;		// Couldn't find stream information
+		m_height = NULL;
+	}
+	
+	// Find the first video stream
+	for (unsigned int i = 0; i < pFormatCtx->nb_streams; i++)
+	{
+		if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+		{
+			m_width = pFormatCtx->streams[i]->codecpar->width;
+			m_height = pFormatCtx->streams[i]->codecpar->height;
+			return;
+		}
+		else
+		{
+			m_width = NULL;		// Didn't find a video stream
+			m_height = NULL;
+		}
+	}
+}
 
 Video::Video(int x)
 	: m_width{x}, m_height{x}, m_paddingHorizontal{ 0 }, m_paddingVertical{ 0 }

@@ -89,55 +89,6 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 	system(buffer.c_str());											//  Start ffmpeg
 }
 
-int getVideoWidth(char* url)
-{
-	AVFormatContext *pFormatCtx = NULL;
-
-	// Register all formats and codecs
-	av_register_all();
-
-	// Open video file
-	if (avformat_open_input(&pFormatCtx, url, NULL, NULL) != 0)
-		return -1; // Couldn't open file
-
-	// Retrieve stream information
-	if (avformat_find_stream_info(pFormatCtx, NULL) < 0)
-		return -1; // Couldn't find stream information
-
-	// Find the first video stream
-	for (unsigned int i = 0; i < pFormatCtx->nb_streams; i++)
-	{
-		if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
-			return pFormatCtx->streams[i]->codecpar->width;
-	}
-
-	return -1; // Didn't find a video stream
-}
-
-int getVideoHeight(char* url)
-{
-	AVFormatContext *pFormatCtx = NULL;
-
-	// Register all formats and codecs
-	av_register_all();
-
-	// Open video file
-	if (avformat_open_input(&pFormatCtx, url, NULL, NULL) != 0)
-		return -1; // Couldn't open file
-
-				   // Retrieve stream information
-	if (avformat_find_stream_info(pFormatCtx, NULL) < 0)
-		return -1; // Couldn't find stream information
-
-	// Find the first video stream
-	for (unsigned int i = 0; i < pFormatCtx->nb_streams; i++)
-	{
-		if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
-			return pFormatCtx->streams[i]->codecpar->height;
-	}
-
-	return -1; // Didn't find a video stream
-}
 
 void main(int argc, char* argv[])
 {
@@ -155,7 +106,7 @@ void main(int argc, char* argv[])
 		return;
 	}
 
-	Video video(getVideoWidth(argv[1]), getVideoHeight(argv[1]));		//  Be sure that this matches the dimensions of the video!!!
+	Video video(input);		//  Be sure that this matches the dimensions of the video!!!
 	wall.scaleFitFrame(video);		//  Method of Wall which makes the wall fit in the video
 
 	//  Starting the Wall
