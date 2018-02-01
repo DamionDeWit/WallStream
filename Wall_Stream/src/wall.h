@@ -1,3 +1,10 @@
+/*
+//	Wall object to represent a video wall by it's width and height
+//	Creates a wall based on a config object
+//	Has 2 methods for scaling:
+//		Using a letterbox (Adding blackbars)
+//		Cropping wall to fit the frame (Possible overscan)
+*/
 #ifndef  WALL_H
 #define WALL_H
 
