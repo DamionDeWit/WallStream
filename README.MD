@@ -98,7 +98,9 @@ Dit is een array van string constante met voor elk scherm een eigen filter. Omda
 
 > Een Quadro kaart is nodig voor Hardware Acceleratie **en** meer dan 2 outputs
 
-> Zonder Hardware Acceleratie is streamen naar meer dan 6 outputs wel mogelijk
+> Maar dit kan pas vanaf een bepaalde Quadro kaart, kijk op Nvidia's site voor de beschikbare kaarten
+
+> Zonder Hardware Acceleratie is streamen naar meer dan 6 outputs wel mogelijk (Dus CPU)
 
 Tot nu ging het encodering process met behulp van de CPU, maar zodra je werk met hogere resoluties is het beter, en soms genoodzaakt, om over te stappen naar hardware acceleratie. Alle Nvidia kaarten met een Kepler based GPU hebben support voor NVENC, de NVidia Encoder. [Meer over NVENC.](https://en.wikipedia.org/wiki/Nvidia_NVENC "Wikipedia artikel")
 
