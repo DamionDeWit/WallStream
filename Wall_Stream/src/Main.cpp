@@ -14,6 +14,10 @@
 
 void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 {
+	//	Creates a string and executes it
+	//	Used to start ffmpeg
+
+
 	const std::string &preset = " -preset fast ";
 	const std::string &profile = "-profile:v high444p ";
 	const std::string &codec = " -c:v h264_nvenc";
@@ -61,7 +65,7 @@ void run_ffmpeg_freeform(Wall wall, Video video, std::string input)
 
 
 
-	std::vector<std::string> iplist = {				//  IP of each Pi, should become dynamic based on a config
+	std::vector<std::string> iplist = {		//  IP of each Pi, should become dynamic based on a config
 		"192.168.60.241",
 		"192.168.60.242",
 		"192.168.60.243",
@@ -106,7 +110,9 @@ void main(int argc, char* argv[])
 	wall.scaleFitFrame(video);		//  Method of Wall which makes the wall fit in the video
 
 	//  Starting the Wall
+	//	Starts omxplayer on every Pi
 	system("python C:\\Users\\Pi\\source\\repos\\Wall_Stream\\Wall_Stream\\start_omx_on_wall.py");
+	//	Starts ffmpeg
 	run_ffmpeg_freeform(wall, video, input);
 	PAUSE;
 }

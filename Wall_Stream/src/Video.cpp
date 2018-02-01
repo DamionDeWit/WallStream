@@ -11,7 +11,8 @@ Video::Video(std::string &url)
 	// Open video file
 	if (avformat_open_input(&pFormatCtx, url.c_str(), NULL, NULL) != 0)
 	{
-		m_width = NULL;		// Couldn't open file
+		// Couldn't open file
+		m_width = NULL;
 		m_height = NULL;
 	}
 

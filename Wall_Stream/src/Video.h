@@ -1,3 +1,10 @@
+/*
+//	Video object to represent a video by it's width and height
+//	Constructor either gets a string which is the absolute path to the video file
+//	or gets integers to manually set the width or height
+//	Makes use of the ffmpeg library to obtain width and height
+*/
+
 #ifndef VIDEO_H
 #define VIDEO_H
 
@@ -26,7 +33,7 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	int getPadding(const char* direction) const;
-	std::vector< int > getRatio();
+	std::vector< int > getRatio();		//  Not in use
 
 	void setPadding(const char* direction, int amount);
 

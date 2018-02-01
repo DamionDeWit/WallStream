@@ -1,3 +1,8 @@
+/*
+//	Screen object to represent a single screen
+//	Width and Height in pixels
+//	X and Y position in pixels
+*/
 #ifndef SCREEN_H
 #define SCREEN_H
 
@@ -6,6 +11,7 @@
 class Screen
 {
 public:		//  To Be Private
+	//	Member variables prefixed with m_
 	int m_Width;
 	int m_Height;
 	int m_Id;
@@ -14,10 +20,10 @@ public:		//  To Be Private
 
 public:
 
-	Screen(int id);																							//  Set Id, defaults rest to 0
-	Screen(int id, int x);																					//  Set Width and Height to x
-	Screen(int id, int width,int height);																	//  Set Width and Height, all Bezels to 0
-	Screen(int id, int width,int height, int x,int y);														//  
+	Screen(int id);												//  Set Id, defaults rest to 0
+	Screen(int id, int x);										//  Set Width and Height to x
+	Screen(int id, int width,int height);						//  Set Width and Height, all Bezels to 0
+	Screen(int id, int width,int height, int x,int y);			//  
 
 	void transposeX(int x);
 	void transposeY(int Y);
@@ -28,6 +34,17 @@ public:
 	int getRight() const;
 
 	void Print() const;
+
+	//	Getter methods for member variables (prefixed with m_)
+	//	getWidth()
+
+	//	getHeight()
+
+	//	getX()
+
+	//	getY()
+
+	//	getId()
 
 };
 

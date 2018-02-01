@@ -1,3 +1,9 @@
+/*
+//	Config object which 
+//	Loads/Creates Config file
+//	Creates Screen objects based on the config file
+//	Currently only hold dummy data
+*/
 #ifndef DEBUG_H
 #define DEBUG_H
 
@@ -10,7 +16,20 @@ public:		//  To Be Private
 
 
 public:
+	//	Constructor should try to find a file called config.txt or default.conf or similiar
+	//	If found, use this file
+	//	Else, let user define new default
 	Config();
+
+	//	Method to load config
+
+	//	Method to save current config
+
+	//	Methods to change/adjust current config
+	//	Add screen
+	//	Delete screen
+	//	Edit screem
+
 
 };
 
