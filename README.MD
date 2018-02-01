@@ -116,15 +116,12 @@ Het is mogelijk om omxplayer op alle pi's tegelijk te starten, in de wallstream 
 Dit maakt een ssh verbinding met Pi1, vervolgens wordt op de Pi een python script uitgevoerd die op alle pi's, die vermeld staan in de iplist, omxplayer start met `omxplayer udp://localhost:1234`.
 
 # Free Form
-Het plan is momenteel om over te stappen van een "Grid" systeem, naar een "Free Form" systeem.
+Free Form is de benaming die wij gebruiken voor het specificeren van de schermen van de Pi's. Hiermee word ook de positie van elk scherm aangegeven.
 Free Form houdt geen rekening met bezels, maar specificeerd voor elk scherm de verschillende waardes:
 
-- width
-- height
-- x pos
-- y pos
+- Width
+- Height
+- X positie
+- Y positie
 
 De x en y positions zijn hier de origin van het scherm (linker boven hoek)
-
-Het Grid systeem wordt niet geheel geschrapt, maar het idee nu is om een Grid setup te gebruiken om een Free Form config te genereren.
-Het ontwerpen van een Free Form vanaf scratch zal veel rekenwerk zijn, een Grid Layout als start punt kan veel rekenwerk besparen.
