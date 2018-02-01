@@ -1,6 +1,6 @@
 /*
 //	Wall object to represent a video wall by it's width and height
-//	Creates a wall based on a config object
+//	Creates a wall based on a config object which contains a layout
 //	Has 2 methods for scaling:
 //		Using a letterbox (Adding blackbars)
 //		Cropping wall to fit the frame (Possible overscan)

@@ -1,6 +1,6 @@
 /*
 //	Config object which 
-//	Loads/Creates Config file
+//	Loads/Creates Config files
 //	Creates Screen objects based on the config file
 //	Currently only hold dummy data
 */
