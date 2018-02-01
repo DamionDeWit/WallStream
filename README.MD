@@ -1,27 +1,19 @@
 # Project Video Wall
 ---
 
-# Free Form
-Het plan is momenteel om over te stappen van een "Grid" systeem, naar een "Free Form" systeem.
-Free Form houdt geen rekening met bezels, maar specificeerd voor elk scherm de verschillende waardes:
-
-- width
-- height
-- x pos
-- y pos
-
-De x en y positions zijn hier de origin van het scherm (linker boven hoek)
-
-Het Grid systeem wordt niet geheel geschrapt, maar het idee nu is om een Grid setup te gebruiken om een Free Form config te genereren.
-Het ontwerpen van een Free Form vanaf scratch zal veel rekenwerk zijn, een Grid Layout als start punt kan veel rekenwerk besparen.
 
 ## Hoe werkt het?
 Voor het mogelijk maken van de video wall maken we gebruik van de *ffmpeg* Console applicatie. 
 
-Momenteel wordt ffmpeg uitgevoerd door een prototype programma geschreven in *C++*, maar dit kan simpel geport worden naar een andere taal die toegang heeft tot de commandline, of zelfs een simpel bash script.
+Momenteel wordt ffmpeg uitgevoerd door een programma geschreven in *C++*, maar dit kan geport worden naar een andere taal die toegang heeft tot de commandline, of zelfs een simpel bash script.(Momenteel wordt er ook gebruik gemaakt van de ffmpeg library, hou er rekening mee dat dit is geschreven in C)
 
 Naast het starten van ffmpeg voert dit programma ook een functie uit die *omxplayer*, de standard Raspberry pi media player, start op elke pi aangesloten op de video wall.
 
+Het programma maakt een Video Wall gebaseerd op een config file (momenteel nog dummy data), en schaalt dit op 1 van de 2 mogelijke manieren naar de video.
+
+### Manieren van schalen
+    -FitFrame (Maakt het beeld vullend, maar mogelijk verlies van content)
+    -LetterBox (Voegt zwarte balken toe)
 
 ## ffmpeg
 ---
@@ -31,6 +23,7 @@ Voor het encoderen en opsplitsen van videos maken we gebruik van ffmpeg, een pro
 Wanneer je onderzoek doe naar ffmpeg dan kom je vast namen tegen zoals avconf en libav, zijn deze projecten het zelfde als ffmpeg? Of zijn dit totaal andere projecten?
 De korte uitleg; 
 Libav is een project dat is geforked uit FFmpeg, het wijzigde de naam van hun ffmpeg applicatie naar avconf.
+Maar libav is ook de naam van verschillende FFmpeg libraries, deze worden momenteel gebruikt in het project om de width en height van een video bestand op te vragen.
 
 *Libav en Ffmpeg zijn twee verschillende projecten*
 
@@ -121,3 +114,17 @@ ffmpeg -i [input]                   \
 Het is mogelijk om omxplayer op alle pi's tegelijk te starten, in de wallstream solution folder staat een python script `start_omx_on_wall.py`.
 
 Dit maakt een ssh verbinding met Pi1, vervolgens wordt op de Pi een python script uitgevoerd die op alle pi's, die vermeld staan in de iplist, omxplayer start met `omxplayer udp://localhost:1234`.
+
+# Free Form
+Het plan is momenteel om over te stappen van een "Grid" systeem, naar een "Free Form" systeem.
+Free Form houdt geen rekening met bezels, maar specificeerd voor elk scherm de verschillende waardes:
+
+- width
+- height
+- x pos
+- y pos
+
+De x en y positions zijn hier de origin van het scherm (linker boven hoek)
+
+Het Grid systeem wordt niet geheel geschrapt, maar het idee nu is om een Grid setup te gebruiken om een Free Form config te genereren.
+Het ontwerpen van een Free Form vanaf scratch zal veel rekenwerk zijn, een Grid Layout als start punt kan veel rekenwerk besparen.
