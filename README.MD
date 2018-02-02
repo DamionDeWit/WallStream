@@ -83,7 +83,7 @@ Dit is een array van string constante met voor elk scherm een eigen filter. Omda
 
 `iw/3` zorgt ervoor dat de width in 3 gelijke stukken kan worden verdeeld, voor een andere setup dan 3x2 schermen, zorg ervoor dat `3` word vervangen voor het aantal schermen per rij
 
-`ih/2` zorgt ervoor dat de height in 2 gelijke stukken kan worden verdeeld, voor een andere setup dan 3x2 schermen, zorg ervoor dat `2` word vervangen voor het aantal schermen per colom
+`ih/2` zorgt ervoor dat de height in 2 gelijke stukken kan worden verdeeld, voor een andere setup dan 3x2 schermen, zorg ervoor dat `2` word vervangen voor het aantal schermen per kolom
 
 `iw/3*x` regelt de x positie, x staat gelijk aan de x positie van je scherm in je wall setup (0 voor meest linker, 1 voor scherm ernaast, 2 voor scherm naast 1, etc...)
 
